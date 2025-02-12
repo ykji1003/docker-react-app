@@ -1,0 +1,24 @@
+version: "3"
+services:
+  react:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:5173"
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    stdin_open: true
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    stdin_open:
+      true #stdin_open: true 설정은 컨테이너가 표준 입력 (stdin)을 계속해서 기다리도록 설정하는 것입니다.
+      #쉽게 말해, 이 설정을 사용하면 컨테이너가 명령어를 실행한 후 종료되지 않고 계속 열려 있도록 하는 기능
+
+    command: ["npm", "run", "test"]
